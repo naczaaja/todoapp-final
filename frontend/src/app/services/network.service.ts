@@ -20,7 +20,7 @@ export class NetworkService {
   }
 
   userLogin(email:string): Observable<Token> {
-    return this.httpClient.post<Token>(`${environment.baseURL}login`,{
+    return this.httpClient.post<Token>(`login`,{
       "email" : email
     })
   }
@@ -30,7 +30,7 @@ export class NetworkService {
       headers: new HttpHeaders()
         .set('Authorization',  `${localStorage.getItem('token')}`)
     }
-    return this.httpClient.get<Todo[]>(`${environment.baseURL}todos/readtodo`,headers)
+    return this.httpClient.get<Todo[]>(`todos/readtodo`,headers)
   }
 
   AddUserTodos(addTodo:AddTodo): Observable<Todo> {
@@ -38,6 +38,6 @@ export class NetworkService {
       headers: new HttpHeaders()
         .set('Authorization',  `${localStorage.getItem('token')}`)
     }
-    return this.httpClient.post<Todo>(`${environment.baseURL}todos/create`,addTodo,headers)
+    return this.httpClient.post<Todo>(`todos/create`,addTodo,headers)
   }
 }
