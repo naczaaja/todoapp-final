@@ -44,6 +44,7 @@ func main() {
 	user_authorized.GET("/readall", handler.ReadUsersAll)
 	// user_authorized.GET("/profile", handler.Profile)
 	todo_authorized.GET("/readall", handler.ReadTodosAll)
+	todo_authorized.GET("/readtodo", handler.ReadTodos)
 	todo_authorized.POST("/create", handler.CreateTodo)
 
 	e.Logger.Fatal(e.Start(":1324"))
@@ -152,4 +153,13 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, result.RowsAffected)
 	}
 	return c.JSON(http.StatusOK, newTodo)
+}
+
+func (h *Handler) ReadTodos(c echo.Context) error {
+	userId := c.Get("userId").(float64)
+	var userIdInt int = int(userId)
+
+	var todos = []orm.TodoDB{}
+	h.db.Find(&todos, "create_by = ?", userIdInt)
+	return c.JSON(http.StatusOK, todos)
 }

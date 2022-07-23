@@ -1,10 +1,26 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <span>Todoapp</span>
   <span class="example-spacer"></span>
   <div class="d-flex align-items-center">
     <p class="showUser">Welcome user.Email</p>
     <button mat-icon-button class="example-icon">
-      <mat-icon>logout</mat-icon>
+      <mat-icon routerLink="/login">logout</mat-icon>
     </button>
   </div>
 </mat-toolbar>
+
+<div class="d-flex justify-content-center">
+  <form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Todo</mat-label>
+      <input type="text" #todofill matInput placeholder="Ex. Meeting">
+    </mat-form-field>
+  </form>
+  <button mat-raised-button color="accent" class="btnAdd" (click)="addTodo(todofill.value)">Add</button>
+</div>
+
+
+<mat-list role="list" class="todoList" *ngFor="let todo of todos">
+  <mat-list-item>{{todo.message}}</mat-list-item>
+  <mat-divider></mat-divider>
+</mat-list>
