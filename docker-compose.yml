@@ -1,12 +1,34 @@
 version: '3.8'
 services:
-  db:
+  mssql_server:
+    container_name: mssql_server
     image: mcr.microsoft.com/azure-sql-edge:latest
     volumes:
-      - "./data:/opt/mssql-tools/bin/sqlcmd"
+      - mssql-azuresql-edge-data:/var/opt/mssql
     environment:
       - ACCEPT_EULA=1
       - MSSQL_SA_PASSWORD=N@czaaja2537
-      - MSSQL_PID=Developer
     ports:
-      - "6543:1433"
+      - "6543:6543"
+    networks:
+      - web_network
+  webserver:
+    container_name: frontend_backend_container
+    command: sh -c "nginx -g 'daemon on;' && /backend/backend"
+    image: naczaaja/golang-angular-todoapp:latest
+    ports:
+      - "80:80"
+      - "8081:8081"
+    env_file:
+      - backend_env
+    restart: always
+    networks:
+      - web_network
+volumes:
+  mssql-azuresql-edge-data:
+  db:
+    driver: local
+  dbmssql:
+    driver: local
+networks:
+  web_network:
