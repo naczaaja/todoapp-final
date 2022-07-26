@@ -26,8 +26,8 @@ func main() {
 		fmt.Println("Error loading .env file")
 	}
 
-	dsn := os.Getenv("MSSQL_DNS")
-	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
+	// dsn := os.Getenv("MSSQL_DNS")
+	db, err := gorm.Open(sqlserver.Open("sqlserver://sa:N@czaaja2537@mssql_server:1433?database=master"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -92,7 +92,7 @@ func (h *Handler) Login(c echo.Context) error {
 func JWTAuthen() echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			hmacSampleSecret := []byte(os.Getenv("JWT_SECRET_KEY"))
+			hmacSampleSecret := []byte(os.Getenv("my_secret_key"))
 
 			header := c.Request().Header.Get("Authorization")
 			tokenString := strings.Replace(header, "Bearer ", "", 1)

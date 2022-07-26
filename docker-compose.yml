@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mssql_server:
-    container_name: mssql_server
+    container_name: mssql_server_db
     image: mcr.microsoft.com/azure-sql-edge:latest
     volumes:
       - mssql-azuresql-edge-data:/var/opt/mssql
@@ -13,17 +13,32 @@ services:
     networks:
       - web_network
   webserver:
-    container_name: frontend_backend_container
+    container_name: frontend_backend
     command: sh -c "nginx -g 'daemon on;' && /backend/backend"
-    image: naczaaja/golang-angular-todoapp:latest
+    build:
+      context: naczaaja/todoapp-final_webserver:latest
     ports:
       - "80:80"
-      - "8081:8081"
-    env_file:
-      - backend/.env
+      - "1324:1324"
+    # env_file:
+    #   - backend/.env
     restart: always
     networks:
       - web_network
+
+
+
+  # webserver:
+  #   command: "/backend/backend"
+  #   restart: always
+  #   build:
+  #     context: .
+  #   ports:
+  #     # - "80:80"
+  #     - "1324:1324"
+  #   networks:
+  #     - web_network
+
 volumes:
   mssql-azuresql-edge-data:
   db:
