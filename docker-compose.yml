@@ -9,7 +9,7 @@ services:
       - ACCEPT_EULA=1
       - MSSQL_SA_PASSWORD=N@czaaja2537
     ports:
-      - "6543:6543"
+      - "1433:1433"
     networks:
       - web_network
   webserver:
