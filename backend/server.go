@@ -102,7 +102,6 @@ func JWTAuthen() echo.MiddlewareFunc {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 					return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 				}
-
 				// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 				return hmacSampleSecret, nil
 			})
@@ -142,6 +141,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 
 	todo := orm.Todo{}
 	if err := c.Bind(&todo); err != nil {
+		fmt.Println(err)
 		return err
 	}
 	newTodo := orm.TodoDB{
@@ -150,6 +150,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 	}
 	result := h.db.Save(&newTodo)
 	if result.Error != nil {
+		fmt.Println(result.RowsAffected)
 		return c.JSON(http.StatusBadRequest, result.RowsAffected)
 	}
 	return c.JSON(http.StatusOK, newTodo)
