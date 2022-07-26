@@ -41,8 +41,9 @@ pipeline {
         stage('rebuild image an compose run'){
             steps{
                 sshagent(credentials:['build-credential']){
-                    sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker rmi naczaaja/todoapp-final_webserver -f'
-                    sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker-compose up -d'
+                    // sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker rmi naczaaja/todoapp-final_webserver -f'
+                    // sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker-compose up -d'
+                    sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 touch newfile'
                 }
             }
         }
