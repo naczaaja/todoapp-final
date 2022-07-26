@@ -26,21 +26,21 @@ pipeline {
         }
         stage('test login to production server'){
             steps{
-                sshagent(credentials:['private_key_jenkins']){
+                sshagent(credentials:['build-credential']){
                     sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 '
                 }
             }
         }
         stage('tranfer docker-compose to production'){
             steps{
-                sshagent(credentials:['private_key_jenkins']){
+                sshagent(credentials:['build-credential']){
                     sh 'scp -o StrictHostKeyChecking=no docker-compose.yml root@164.92.84.214:/root/docker-compose.yml'
                 }
             }
         }
         stage('rebuild image an compose run'){
             steps{
-                sshagent(credentials:['private_key_jenkins']){
+                sshagent(credentials:['build-credential']){
                     sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker rmi naczaaja/todoapp-final_webserver -f'
                     sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker-compose up -d'
                 }
