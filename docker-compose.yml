@@ -15,8 +15,7 @@ services:
   webserver:
     container_name: frontend_backend
     command: sh -c "nginx -g 'daemon on;' && /backend/backend"
-    build:
-      context: naczaaja/todoapp-final_webserver:latest
+    image: naczaaja/todoapp-final_webserver:latest
     ports:
       - "80:80"
       - "1324:1324"
