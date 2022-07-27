@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        stage('rebuild image'){
+        stage('remove image with tag'){
             steps{
                 sshagent(credentials:['build-credential']){
                     sh 'ssh  -o StrictHostKeyChecking=no root@164.92.84.214 docker rmi naczaaja/todoapp-final_webserver -f'

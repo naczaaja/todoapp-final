@@ -15,10 +15,11 @@ export class TodolistComponent implements OnInit {
   isLogin = isLogin
   todoFill?: string;
   todos: Todo[] = []
+  email!: string
 
   constructor(private networkService: NetworkService, private router: Router) { }
 
-  email = String(localStorage.getItem('email'))
+  this.email = String(localStorage.getItem('email'))
   ngOnInit(): void {
     if (this.isLogin() == false) {
       this.router.navigate(['/login']);
