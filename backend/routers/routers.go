@@ -19,8 +19,8 @@ import (
 var hmacSampleSecret []byte
 
 func Router(e *echo.Echo) {
-
-	db, err := gorm.Open(sqlserver.Open("sqlserver://sa:N@czaaja2537@mssql_server:1433?database=master"), &gorm.Config{})
+	dsn := os.Getenv("MSSQL_DNS")
+	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}

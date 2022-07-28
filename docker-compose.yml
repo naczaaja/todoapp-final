@@ -19,24 +19,9 @@ services:
     ports:
       - "80:80"
       - "1324:1324"
-    # env_file:
-    #   - backend/.env
     restart: always
     networks:
       - web_network
-
-
-
-  # webserver:
-  #   command: "/backend/backend"
-  #   restart: always
-  #   build:
-  #     context: .
-  #   ports:
-  #     # - "80:80"
-  #     - "1324:1324"
-  #   networks:
-  #     - web_network
 
 volumes:
   mssql-azuresql-edge-data:

@@ -19,10 +19,9 @@ export class RestInterceptor implements HttpInterceptor {
     const url = `${environment.baseURL}${request.url}`
     const urlReq = request.clone({ url })
 
-    console.log("REQ: RestInterceptor");
-
     return next.handle(urlReq).pipe(
       tap(event => {
+        
         if (event instanceof HttpResponse) {
 
         }
