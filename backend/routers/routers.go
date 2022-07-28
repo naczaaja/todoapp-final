@@ -150,6 +150,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 	result := h.db.Save(&newTodo)
 	if result.Error != nil {
 		fmt.Println(result.RowsAffected)
+		fmt.Println(result.Error)
 		return c.JSON(http.StatusBadRequest, result.RowsAffected)
 	}
 	log.Print("CreateTodo function is already completed.")
