@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"gorm.io/driver/sqlserver"
+	"gorm.io/gorm"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
 )
 
 var hmacSampleSecret []byte
@@ -113,7 +113,9 @@ func JWTAuthen() echo.MiddlewareFunc {
 
 func (h *Handler) ReadUsersAll(c echo.Context) error {
 	var users []orm.UserDB
-	h.db.Find(&users)
+	if err := h.db.Find(&users); err != nil {
+		return err.Error
+	}
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "user read success",
 		"users":   users,
@@ -122,7 +124,9 @@ func (h *Handler) ReadUsersAll(c echo.Context) error {
 
 func (h *Handler) ReadTodosAll(c echo.Context) error {
 	var todos = []orm.TodoDB{}
-	h.db.Find(&todos)
+	if err := h.db.Find(&todos); err != nil {
+		return err.Error
+	}
 	log.Print("ReadTodoAll function is already completed.")
 	return c.JSON(http.StatusOK, todos)
 }
@@ -153,7 +157,9 @@ func (h *Handler) ReadTodos(c echo.Context) error {
 	var userIdInt int = int(userId)
 
 	var todos = []orm.TodoDB{}
-	h.db.Find(&todos, "create_by = ?", userIdInt)
+	if err := h.db.Find(&todos, "create_by = ?", userIdInt); err != nil {
+		return err.Error
+	}
 	log.Print("ReadTodo function is already completed.")
 	return c.JSON(http.StatusOK, todos)
 }
