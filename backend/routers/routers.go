@@ -113,8 +113,10 @@ func JWTAuthen() echo.MiddlewareFunc {
 
 func (h *Handler) ReadUsersAll(c echo.Context) error {
 	var users []orm.UserDB
-	if err := h.db.Find(&users); err != nil {
-		return err.Error
+	result := h.db.Find(&users)
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	return c.JSON(http.StatusOK, echo.Map{
 		"message": "user read success",
@@ -124,8 +126,10 @@ func (h *Handler) ReadUsersAll(c echo.Context) error {
 
 func (h *Handler) ReadTodosAll(c echo.Context) error {
 	var todos = []orm.TodoDB{}
-	if err := h.db.Find(&todos); err != nil {
-		return err.Error
+	result := h.db.Find(&todos)
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	log.Print("ReadTodoAll function is already completed.")
 	return c.JSON(http.StatusOK, todos)
@@ -157,8 +161,10 @@ func (h *Handler) ReadTodos(c echo.Context) error {
 	var userIdInt int = int(userId)
 
 	var todos = []orm.TodoDB{}
-	if err := h.db.Find(&todos, "create_by = ?", userIdInt); err != nil {
-		return err.Error
+	result := h.db.Find(&todos, "create_by = ?", userIdInt)
+	if result.Error != nil {
+		fmt.Println(result.Error)
+		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	log.Print("ReadTodo function is already completed.")
 	return c.JSON(http.StatusOK, todos)
