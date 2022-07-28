@@ -115,7 +115,7 @@ func (h *Handler) ReadUsersAll(c echo.Context) error {
 	var users []orm.UserDB
 	result := h.db.Find(&users)
 	if result.Error != nil {
-		fmt.Println(result.Error)
+		fmt.Println(result.Error.Error())
 		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	return c.JSON(http.StatusOK, echo.Map{
@@ -128,7 +128,7 @@ func (h *Handler) ReadTodosAll(c echo.Context) error {
 	var todos = []orm.TodoDB{}
 	result := h.db.Find(&todos)
 	if result.Error != nil {
-		fmt.Println(result.Error)
+		fmt.Println(result.Error.Error())
 		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	log.Print("ReadTodoAll function is already completed.")
@@ -140,7 +140,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 
 	todo := orm.Todo{}
 	if err := c.Bind(&todo); err != nil {
-		fmt.Println(err)
+		fmt.Println(err.Error())
 		return err
 	}
 	newTodo := orm.TodoDB{
@@ -150,7 +150,6 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 	result := h.db.Save(&newTodo)
 	if result.Error != nil {
 		fmt.Println(result.RowsAffected)
-		fmt.Println(result.Error)
 		return c.JSON(http.StatusBadRequest, result.RowsAffected)
 	}
 	log.Print("CreateTodo function is already completed.")
@@ -164,7 +163,7 @@ func (h *Handler) ReadTodos(c echo.Context) error {
 	var todos = []orm.TodoDB{}
 	result := h.db.Find(&todos, "create_by = ?", userIdInt)
 	if result.Error != nil {
-		fmt.Println(result.Error)
+		fmt.Println(result.Error.Error())
 		return c.JSON(http.StatusBadRequest, result.Error)
 	}
 	log.Print("ReadTodo function is already completed.")
