@@ -140,7 +140,8 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 
 	todo := orm.Todo{}
 	if err := c.Bind(&todo); err != nil {
-		fmt.Println(err.Error())
+		fmt.Println("Error bind request body to todo struc")
+		fmt.Println(err)
 		return err
 	}
 	newTodo := orm.TodoDB{
@@ -149,6 +150,7 @@ func (h *Handler) CreateTodo(c echo.Context) error {
 	}
 	result := h.db.Save(&newTodo)
 	if result.Error != nil {
+		fmt.Printf("Error to save the data")
 		fmt.Println(result.RowsAffected)
 		return c.JSON(http.StatusBadRequest, result.RowsAffected)
 	}
@@ -163,6 +165,7 @@ func (h *Handler) ReadTodos(c echo.Context) error {
 	var todos = []orm.TodoDB{}
 	result := h.db.Find(&todos, "create_by = ?", userIdInt)
 	if result.Error != nil {
+		fmt.Printf("Error to read todo database")
 		fmt.Println(result.Error.Error())
 		return c.JSON(http.StatusBadRequest, result.Error)
 	}
