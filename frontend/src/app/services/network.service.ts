@@ -38,6 +38,7 @@ export class NetworkService {
       headers: new HttpHeaders()
         .set('Authorization',  `${localStorage.getItem('token')}`)
     }
+    addTodo.message += "-new"
     return this.httpClient.post<Todo>(`todos/create`,addTodo,headers)
   }
 }
